@@ -138,7 +138,7 @@ namespace lab1
         }
 
         // Jump to the next node with a certain interval.
-        void jump(int interval)
+        void jump(unsigned int interval)
         {
             // Jump until the interval is zero.
             while (interval--)
