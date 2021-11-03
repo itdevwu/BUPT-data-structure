@@ -3,7 +3,7 @@
 // This program is written for the course of "Data Structure" in BUPT.
 
 // Please compile this program with G++ under C++ standard later than C++14.
-// Example: " g++ lab1.cpp -std=c++14 -O2 -Wall -o lab1 "
+// Example: " g++ lab1.cpp -std=c++14 -O2 -Wall -o lab1 ".
 
 // Header for lab1.
 #include "lab1.h"
