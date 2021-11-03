@@ -26,7 +26,11 @@ namespace lab2
         std::cout << "*** PRINT ROUTE END ***\n";
     }
 
-    int handle_input(lab2::Graph &graph, int &start_vertex, int &dest_vertex, int argc, char *argv[])
+    int handle_input(lab2::Graph &graph,
+                     int &start_vertex,
+                     int &dest_vertex,
+                     int argc,
+                     char *argv[])
     {
         // Status code, identifying what way user exactly chose to input.
         // 0 for error,
