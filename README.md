@@ -2,10 +2,14 @@
 
 ## Lab 1: Josephus Ring
 
-[Lab1](./lab1/)
+[Lab 1](./lab1/)
+
+## Lab 2: Maze
+
+[Lab 2](./lab2/)
 
 ## Copyright
 
-Copyright 2021 itdevwu (Zhenglong WU)
+Copyright 2021 itdevwu (Zhenglong WU).
 
-Licensing under [MIT License](./LICENSE)
+Licensing under [MIT License](./LICENSE).
