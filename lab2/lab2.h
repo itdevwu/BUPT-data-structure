@@ -161,7 +161,7 @@ namespace lab2
                                   best_route);
 
                 // If this search reached the final destination.
-                if (_result != -1)
+                if (_result != INT32_MAX)
                 {
                     // Replace answer.
                     // No need to replace route since they are references.
@@ -178,8 +178,8 @@ namespace lab2
         // Judge if this is an dead end.
         if (is_end)
         {
-            // Return -1 since this search did not reach the final end.
-            return -1;
+            // Return INT32_MAX since this search did not reach the final end.
+            return INT32_MAX;
         }
         else
         {
