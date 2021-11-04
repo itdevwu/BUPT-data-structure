@@ -153,11 +153,7 @@ namespace lab2
             first_edge_id = (int *)malloc((MAX_ORIGIN_ID + 1) * sizeof(int));
 
             // Initalize first edge array.
-            // Check nullptr before memset.
-            if (first_edge_id != nullptr)
-            {
-                memset(first_edge_id, 0, sizeof(*first_edge_id));
-            }
+            std::fill(first_edge_id, first_edge_id + MAX_SIZE, -1);
         }
     };
 }

@@ -138,7 +138,7 @@ namespace lab2
         bool is_end = true;
 
         // Enumerate each edge starting from current vertex.
-        for (auto i = graph.first_edge_id[cur_node]; i != 0; i = graph.data[i].next_edge_id)
+        for (auto i = graph.first_edge_id[cur_node]; i != -1; i = graph.data[i].next_edge_id)
         {
             // Destination of this edge.
             int _dest = graph.data[i].destination;
