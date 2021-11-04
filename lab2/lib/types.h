@@ -20,7 +20,7 @@ namespace lab2
         int *bottom;
 
         // Maximum size of the stack.
-        int MAX_SIZE = 10;
+        int MAX_SIZE = 8192;
 
         // Push an object into stack.
         void push(int x)
@@ -147,8 +147,8 @@ namespace lab2
         Graph()
         {
             edge_count = 0;
-            MAX_SIZE = 10;
-            MAX_ORIGIN_ID = 10;
+            MAX_SIZE = 8192;
+            MAX_ORIGIN_ID = 8192;
             data = (edge *)malloc(MAX_SIZE * sizeof(edge));
             first_edge_id = (int *)malloc((MAX_ORIGIN_ID + 1) * sizeof(int));
 
