@@ -4,9 +4,9 @@
 
 [Lab 1](./lab1/)
 
-## Docs
+## Lab 2: Maze
 
-Coming soon...
+[Lab 2](./lab2/)
 
 ## Copyright
 
