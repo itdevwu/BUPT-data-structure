@@ -4,10 +4,6 @@
 
 [Lab 1](./lab1/)
 
-## Lab 2: Maze
-
-[Lab 2](./lab2/)
-
 ## Copyright
 
 Copyright 2021 itdevwu (Zhenglong WU).
