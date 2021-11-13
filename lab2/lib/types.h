@@ -58,17 +58,22 @@ namespace lab2
             }
             else
             {
+                // Error message.
                 std::cerr << "Error stack size, stack cannot have negitive size!" << std::endl;
             }
         }
 
+        // Judge if an object exists in the stack.
         bool exists(_T target)
         {
+            // Default result = false.
             bool _result = false;
             for (auto i = 0; i < size; ++i)
             {
+                // If found one.
                 if (bottom[i] == target)
                 {
+                    // Make result true and break.
                     _result = true;
                     break;
                 }
