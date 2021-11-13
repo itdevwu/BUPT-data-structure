@@ -20,10 +20,13 @@ int main(int argc, char *argv[])
     // Graph to store the maze.
     lab2::Graph graph;
 
-    // Stack to store the shortest route.
-    lab2::Stack route_stack;
-    // Stack to store temporary route.
-    lab2::Stack tmp_stack;
+    // Stack to simulate DFS.
+    lab2::Stack<std::pair<int, lab2::Route>> dfs_sim_stack;
+
+    // Route to store the shortest route.
+    lab2::Route best_route;
+    // Init.
+    best_route.tot_distance = INT32_MAX;
 
     // Array to record if a node has been visited in a search.
     int *visited_node = (int *)malloc(1024 * sizeof(int));
@@ -32,13 +35,16 @@ int main(int argc, char *argv[])
     // Set graph by diverse input methods.
     if (lab2::handle_input(graph, start_vertex, dest_vertex, argc, argv))
     {
-        tmp_stack.push(start_vertex);
+        lab2::Route initial_route;
+        initial_route.route_stack.push(start_vertex);
 
-        // Obtain result by dfs.
-        int _result = lab2::dfs(start_vertex, dest_vertex, 0, INT32_MAX, visited_node, graph, tmp_stack, route_stack);
+        dfs_sim_stack.push(std::make_pair(start_vertex, initial_route));
+
+        // Obtain result by DFS simulated by a lab2::Stack.
+        lab2::sim_dfs_by_stack(dest_vertex, dfs_sim_stack, graph, best_route);
 
         // Judge if the destination is reached.
-        if (_result == INT32_MAX)
+        if (best_route.tot_distance == INT32_MAX)
         {
             // Print error message.
             std::cout << "Cannot find a way to destination." << std::endl;
@@ -46,9 +52,9 @@ int main(int argc, char *argv[])
         else
         {
             // Print the shortest distance.
-            std::cout << "Shortest distance of given problem is " << _result << " .\n";
+            std::cout << "The shortest distance is " << best_route.tot_distance << ".\n";
             // Print the shortest route.
-            lab2::print_route_stack(route_stack);
+            best_route.print_route_stack();
         }
     }
 

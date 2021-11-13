@@ -11,25 +11,26 @@
 namespace lab2
 {
     // Stack of integer.
+    template <class _T>
     struct Stack
     {
         // Current size of stack.
         int size;
 
         // Stack bottom, also the start of the data sequence.
-        int *bottom;
+        _T *bottom;
 
         // Maximum size of the stack.
         int MAX_SIZE = 8192;
 
         // Push an object into stack.
-        void push(int x)
+        void push(_T x)
         {
             // If memory is not enough, than re-allocate them.
             if (size + 1 == MAX_SIZE - 1)
             {
                 MAX_SIZE <<= 1;
-                bottom = (int *)realloc(bottom, MAX_SIZE * sizeof(int));
+                bottom = (_T *)realloc(bottom, MAX_SIZE * sizeof(_T));
             }
 
             bottom[size++] = x;
@@ -42,7 +43,7 @@ namespace lab2
         }
 
         // Return value of the top of the stack.
-        int top()
+        _T top()
         {
             return bottom[size - 1];
         }
@@ -61,6 +62,20 @@ namespace lab2
             }
         }
 
+        bool exists(_T target)
+        {
+            bool _result = false;
+            for (auto i = 0; i < size; ++i)
+            {
+                if (bottom[i] == target)
+                {
+                    _result = true;
+                    break;
+                }
+            }
+            return _result;
+        }
+
         // Operator = overloading for correct "=" behavior.
         Stack operator=(const Stack &target)
         {
@@ -72,8 +87,8 @@ namespace lab2
 
             this->size = target.size;
             this->MAX_SIZE = target.MAX_SIZE;
-            this->bottom = (int *)malloc(MAX_SIZE * sizeof(int));
-            memcpy(this->bottom, target.bottom, size * sizeof(int));
+            this->bottom = (_T *)malloc(MAX_SIZE * sizeof(_T));
+            memcpy(this->bottom, target.bottom, size * sizeof(_T));
 
             return *this;
         }
@@ -82,7 +97,7 @@ namespace lab2
         Stack()
         {
             size = 0;
-            bottom = (int *)malloc(MAX_SIZE * sizeof(int));
+            bottom = (_T *)malloc(MAX_SIZE * sizeof(_T));
         }
     };
 
@@ -154,6 +169,69 @@ namespace lab2
 
             // Initalize first edge array.
             std::fill(first_edge_id, first_edge_id + MAX_SIZE, -1);
+        }
+    };
+
+    struct Route
+    {
+        int tot_distance;
+        lab2::Stack<int> route_stack;
+
+        // Print the route stack from bottom to top.
+        void print_route_stack()
+        {
+            // Note for users.
+            std::cout << "*** PRINT ROUTE START ***\n";
+
+            // Push the starting node into stack before dfs starts, thus its index is 0.
+            std::cout << "Starting from vertex: " << route_stack.bottom[0] << std::endl;
+            for (auto i = 1; i < route_stack.size; ++i)
+            {
+                printf("Step %d passed vertex: %d\n", i, route_stack.bottom[i]);
+            }
+
+            // Note for users.
+            std::cout << "*** PRINT ROUTE END ***\n";
+        }
+
+        Route operator=(const Route &target)
+        {
+            // Judge if the target is itself.
+            if (this == &target)
+            {
+                return *this;
+            }
+
+            this->tot_distance = target.tot_distance;
+            this->route_stack = target.route_stack;
+
+            return *this;
+        }
+
+        bool operator<(const Route &target)
+        {
+            return (this->tot_distance < target.tot_distance);
+        }
+
+        bool operator==(const Route &target)
+        {
+            return (this->tot_distance == target.tot_distance);
+        }
+
+        bool operator>(const Route &target)
+        {
+            return (this->tot_distance > target.tot_distance);
+        }
+
+        Route(int dist, lab2::Stack<int> sta)
+        {
+            tot_distance = dist;
+            route_stack = sta;
+        }
+
+        Route()
+        {
+            tot_distance = 0;
         }
     };
 }
