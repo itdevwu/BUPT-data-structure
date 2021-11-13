@@ -31,9 +31,12 @@ int main(int argc, char *argv[])
     // Set graph by diverse input methods.
     if (lab2::handle_input(graph, start_vertex, dest_vertex, argc, argv))
     {
+        // Initiate a route.
         lab2::Route initial_route;
+        // Push the start vertex into the route stack.
         initial_route.route_stack.push(start_vertex);
 
+        // Start simulate DFS.
         dfs_sim_stack.push(std::make_pair(start_vertex, initial_route));
 
         // Obtain result by DFS simulated by a lab2::Stack.

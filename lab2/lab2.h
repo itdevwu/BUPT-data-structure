@@ -90,26 +90,33 @@ namespace lab2
                           lab2::Graph &graph,
                           lab2::Route &best_route)
     {
+        // If the stack is empty, there will be no reason to search.
         while (dfs_sim_stack.empty() != true)
         {
+            // Pick the top vertex.
             auto cur_vertex = dfs_sim_stack.top();
-            printf("* %d\n", cur_vertex.first);
+            // Pop it out.
             dfs_sim_stack.pop();
 
+            // Judge if it is our final destination.
             if (cur_vertex.first != final_dest)
             {
+                // Enumerate each out-degree.
                 for (int i = graph.first_edge_id[cur_vertex.first];
                      i != -1;
                      i = graph.data[i].next_edge_id)
                 {
-                    // printf("-- ^ %d\n", graph.data[i].destination);
-                    // cur_vertex.second.print_route_stack();
+                    // Make sure destination of the edge would not have showed up in the route.
                     if (cur_vertex.second.route_stack.exists(graph.data[i].destination) == false)
                     {
+                        // Extended route.
                         auto extend_route = cur_vertex.second;
+                        // Add total distance.
                         extend_route.tot_distance += graph.data[i].distance;
+                        // Add new vertex.
                         extend_route.route_stack.push(graph.data[i].destination);
 
+                        // Push the new vertex into the stack along with its route.
                         dfs_sim_stack.push(
                             std::make_pair(
                                 graph.data[i].destination,
@@ -122,6 +129,7 @@ namespace lab2
                 // Judge if this is the best route.
                 if (cur_vertex.second < best_route)
                 {
+                    // Yes, then change the best one.
                     best_route = cur_vertex.second;
                 }
             }
