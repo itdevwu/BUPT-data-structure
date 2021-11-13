@@ -13,7 +13,7 @@
 - [build_run_unix.sh](./build_run_unix.sh)
 - [build_run_win.bat](./build_run_win.bat)
 
-## Functions
+## Features
 
 - lib
     - io.h: Implement I/O related functions;

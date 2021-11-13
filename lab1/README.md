@@ -10,7 +10,7 @@
 - [lab1.h](./lab1.h)
 - [lab1.cpp](./lab1.cpp)
 
-## Functions
+## Features
 
 - lib
     - etc.h: Implement auxiliary functions, enums and macros;
