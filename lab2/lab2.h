@@ -3,29 +3,13 @@
 // This program is written for the course of "Data Structure" in BUPT.
 
 // Standard header.
+#include <utility>
 
 // Header for I/O.
 #include "./lib/io.h"
 
 namespace lab2
 {
-    // Print the route stack from bottom to top.
-    void print_route_stack(lab2::Stack &route_stack)
-    {
-        // Note for users.
-        std::cout << "*** PRINT ROUTE START ***\n";
-
-        // Push the starting node into stack before dfs starts, thus its index is 0.
-        std::cout << "Starting from vertex: " << route_stack.bottom[0] << std::endl;
-        for (auto i = 1; i < route_stack.size; ++i)
-        {
-            printf("Step %d passed vertex: %d\n", i, route_stack.bottom[i]);
-        }
-
-        // Note for users.
-        std::cout << "*** PRINT ROUTE END ***\n";
-    }
-
     int handle_input(lab2::Graph &graph,
                      int &start_vertex,
                      int &dest_vertex,
@@ -101,90 +85,46 @@ namespace lab2
     }
 
     // Use DFS to find the shortest route, Dijkstra or Bellman-Ford is better yet banned by tutors.
-    // cur_node stands for current vertex's ID,
-    // final_dest stands for final destination's ID,
-    // tot_dist stands for current total distance of this specific DFS process,
-    // ans stands for the best answer has been found at the moment,
-    // visited_node stands for array recording if a node has been visited in this particular DFS,
-    // graph stands for the graph,
-    // route stands for route of current route,
-    // best_route stands for route of the shortest route had been found at the moment,
-    int dfs(
-        int cur_node,
-        int final_dest,
-        int tot_dist,
-        int ans,
-        int *visited_node,
-        lab2::Graph &graph,
-        lab2::Stack &route,
-        lab2::Stack &best_route)
+    void sim_dfs_by_stack(int final_dest,
+                          lab2::Stack<std::pair<int, lab2::Route>> &dfs_sim_stack,
+                          lab2::Graph &graph,
+                          lab2::Route &best_route)
     {
-        // Judge if the current vertex is destination.
-        if (cur_node == final_dest)
+        while (dfs_sim_stack.empty() != true)
         {
-            // If current result is better, than replace the existing one with it.
-            if (tot_dist < ans)
+            auto cur_vertex = dfs_sim_stack.top();
+            printf("* %d\n", cur_vertex.first);
+            dfs_sim_stack.pop();
+
+            if (cur_vertex.first != final_dest)
             {
-                ans = tot_dist;
-                best_route = route;
-            }
-            // Return best answer.
-            return ans;
-        }
-
-        // Mark this vertex is currently been occupied.
-        visited_node[cur_node] = 1;
-        // Flag to judge if this node is a dead end.
-        bool is_end = true;
-
-        // Enumerate each edge starting from current vertex.
-        for (auto i = graph.first_edge_id[cur_node]; i != -1; i = graph.data[i].next_edge_id)
-        {
-            // Destination of this edge.
-            int _dest = graph.data[i].destination;
-
-            // Do the following if the destinations has not been occupied.
-            if (!visited_node[_dest])
-            {
-                // That means this current node is not a dead end.
-                is_end = false;
-
-                // Add this new destination to route and DFS.
-                route.push(_dest);
-                int _result = dfs(_dest,
-                                  final_dest,
-                                  tot_dist + graph.data[i].distance,
-                                  ans,
-                                  visited_node,
-                                  graph,
-                                  route,
-                                  best_route);
-
-                // If this search reached the final destination.
-                if (_result != INT32_MAX)
+                for (int i = graph.first_edge_id[cur_vertex.first];
+                     i != -1;
+                     i = graph.data[i].next_edge_id)
                 {
-                    // Replace answer.
-                    // No need to replace route since they are references.
-                    ans = std::min(_result, ans);
+                    // printf("-- ^ %d\n", graph.data[i].destination);
+                    // cur_vertex.second.print_route_stack();
+                    if (cur_vertex.second.route_stack.exists(graph.data[i].destination) == false)
+                    {
+                        auto extend_route = cur_vertex.second;
+                        extend_route.tot_distance += graph.data[i].distance;
+                        extend_route.route_stack.push(graph.data[i].destination);
+
+                        dfs_sim_stack.push(
+                            std::make_pair(
+                                graph.data[i].destination,
+                                extend_route));
+                    }
                 }
-                // Pop this destination out of stack.
-                route.pop();
             }
-        }
-
-        // Release this node.
-        visited_node[cur_node] = 0;
-
-        // Judge if this is an dead end.
-        if (is_end)
-        {
-            // Return INT32_MAX since this search did not reach the final end.
-            return INT32_MAX;
-        }
-        else
-        {
-            // Return answer.
-            return ans;
+            else
+            {
+                // Judge if this is the best route.
+                if (cur_vertex.second < best_route)
+                {
+                    best_route = cur_vertex.second;
+                }
+            }
         }
     }
 }
