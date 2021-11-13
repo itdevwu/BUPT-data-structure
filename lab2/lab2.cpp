@@ -28,10 +28,6 @@ int main(int argc, char *argv[])
     // Init.
     best_route.tot_distance = INT32_MAX;
 
-    // Array to record if a node has been visited in a search.
-    int *visited_node = (int *)malloc(1024 * sizeof(int));
-    memset(visited_node, 0, sizeof(*visited_node));
-
     // Set graph by diverse input methods.
     if (lab2::handle_input(graph, start_vertex, dest_vertex, argc, argv))
     {
