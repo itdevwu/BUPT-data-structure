@@ -27,11 +27,11 @@ namespace lab2
         void push(_T x)
         {
             // If memory is not enough, than re-allocate them.
-            if (size + 1 == MAX_SIZE - 1)
-            {
-                MAX_SIZE <<= 1;
-                bottom = (_T *)realloc(bottom, MAX_SIZE * sizeof(_T));
-            }
+            // if (size + 1 == MAX_SIZE - 1)
+            // {
+            //     MAX_SIZE <<= 1;
+            //     bottom = (_T *)realloc(bottom, MAX_SIZE * sizeof(_T));
+            // }
 
             bottom[size++] = x;
         }
@@ -179,7 +179,9 @@ namespace lab2
 
     struct Route
     {
+        // Total distance of a route.
         int tot_distance;
+        // Vertices that have been past through.
         lab2::Stack<int> route_stack;
 
         // Print the route stack from bottom to top.
