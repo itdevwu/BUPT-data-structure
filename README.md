@@ -1,4 +1,4 @@
-# Data Structure Lab/Experiment of BUPT
+# Data Structure Labs/Experiments of BUPT
 
 [![GitHub](https://img.shields.io/github/license/itdevwu/BUPT-data-structure)](https://github.com/itdevwu/BUPT-data-structure/blob/master/LICENSE)
 [![Website](https://img.shields.io/website?down_color=red&down_message=offline&up_color=blue&up_message=online&url=https%3A%2F%2Fdocs.itdevwu.com%2FBUPT-data-structure)](https://docs.itdevwu.com/BUPT-data-structure)
@@ -6,7 +6,11 @@
 
 ## Docs
 
-Check [北邮数据结构实验 | itdevwu's docs](https://docs.itdevwu.com/BUPT-data-structure)
+Chinese:
+[北邮数据结构实验 | itdevwu's docs](https://docs.itdevwu.com/BUPT-data-structure).
+
+English:
+[Data Structure Labs/Experiments of BUPT | itdevwu's Docs](https://docs.itdevwu.com/en/BUPT-data-structure).
 
 ## Lab 1: Josephus Ring
 
