@@ -12,7 +12,7 @@ namespace lab2
 {
     int handle_input(lab2::Graph &graph,
                      int &start_vertex,
-                     int &dest_vertex,
+                     lab2::Stack<int> &dest_vertices,
                      int argc,
                      char *argv[])
     {
@@ -41,7 +41,17 @@ namespace lab2
             set_graph_by_stdio(graph);
 
             // Set start and end nodes.
-            std::cin >> start_vertex >> dest_vertex;
+            std::cin >> start_vertex;
+
+            // Read all m destination vertices.
+            int _m;
+            std::cin >> _m;
+            while (_m--)
+            {
+                int tmp;
+                std::cin >> tmp;
+                dest_vertices.push(tmp);
+            }
         }
         // Receive input from file.
         else if (argc == 2)
@@ -67,7 +77,17 @@ namespace lab2
             set_graph_by_file(graph, argv[1], fin);
 
             // Set start and end nodes.
-            fin >> start_vertex >> dest_vertex;
+            fin >> start_vertex;
+
+            // Read all m destination vertices.
+            int _m;
+            fin >> _m;
+            while (_m--)
+            {
+                int tmp;
+                fin >> tmp;
+                dest_vertices.push(tmp);
+            }
 
             // Close file stream.
             fin.close();
@@ -85,7 +105,7 @@ namespace lab2
     }
 
     // Use DFS to find the shortest route, Dijkstra or Bellman-Ford is better yet banned by tutors.
-    void sim_dfs_by_stack(int final_dest,
+    void sim_dfs_by_stack(lab2::Stack<int> final_dest,
                           lab2::Stack<std::pair<int, lab2::Route>> &dfs_sim_stack,
                           lab2::Graph &graph,
                           lab2::Route &best_route)
@@ -99,7 +119,7 @@ namespace lab2
             dfs_sim_stack.pop();
 
             // Judge if it is our final destination.
-            if (cur_vertex.first != final_dest)
+            if (final_dest.exists(cur_vertex.first) == false)
             {
                 // Enumerate each out-degree.
                 for (int i = graph.first_edge_id[cur_vertex.first];

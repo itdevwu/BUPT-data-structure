@@ -14,11 +14,14 @@ int main(int argc, char *argv[])
     // Welcome.
     std::cout << "Welcome to the MAZE!\n\n";
 
-    // Start and end vertices.
-    int start_vertex, dest_vertex;
+    // Start vertex.
+    int start_vertex;
 
     // Graph to store the maze.
     lab2::Graph graph;
+
+    // Stack to store destinations.
+    lab2::Stack<int> dest_vertices;
 
     // Stack to simulate DFS.
     lab2::Stack<std::pair<int, lab2::Route>> dfs_sim_stack;
@@ -29,7 +32,7 @@ int main(int argc, char *argv[])
     best_route.tot_distance = INT32_MAX;
 
     // Set graph by diverse input methods.
-    if (lab2::handle_input(graph, start_vertex, dest_vertex, argc, argv))
+    if (lab2::handle_input(graph, start_vertex, dest_vertices, argc, argv))
     {
         // Initiate a route.
         lab2::Route initial_route;
@@ -40,7 +43,7 @@ int main(int argc, char *argv[])
         dfs_sim_stack.push(std::make_pair(start_vertex, initial_route));
 
         // Obtain result by DFS simulated by a lab2::Stack.
-        lab2::sim_dfs_by_stack(dest_vertex, dfs_sim_stack, graph, best_route);
+        lab2::sim_dfs_by_stack(dest_vertices, dfs_sim_stack, graph, best_route);
 
         // Judge if the destination is reached.
         if (best_route.tot_distance == INT32_MAX)
