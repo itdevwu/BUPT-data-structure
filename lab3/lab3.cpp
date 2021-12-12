@@ -1,5 +1,9 @@
 #include <cmath>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include "./lab3.h"
 
 int main(int argc, char *argv[])
@@ -14,8 +18,6 @@ int main(int argc, char *argv[])
 
 #ifdef _WIN32
     char *locale = setlocale(LC_ALL, "");
-
-#include <windows.h>
     system("chcp 65001");
 #endif
 
