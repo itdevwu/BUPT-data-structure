@@ -2,6 +2,7 @@
 
 namespace lab3
 {
+    // Record encoding of a utf-8 char.
     struct Bitseq
     {
         lab3::UTF8_CHAR ch;
@@ -16,6 +17,7 @@ namespace lab3
             return (data >> n) & 1;
         }
 
+        // Init.
         Bitseq()
         {
             size = 0;
@@ -23,11 +25,13 @@ namespace lab3
         }
     };
 
+    // Record frequency of a UTF-8 char.
     struct Freq
     {
         lab3::UTF8_CHAR content;
         int frequency;
 
+        // -1 means no such char.
         Freq()
         {
             frequency = -1;

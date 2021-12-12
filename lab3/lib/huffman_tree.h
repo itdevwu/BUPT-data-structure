@@ -12,6 +12,7 @@ namespace lab3
         // Tree structure.
         HuffmanNode *parent, *lchild, *rchild;
 
+        // Move on the tree according to values. 
         HuffmanNode *iter(int x)
         {
             if (x == 0)
@@ -21,11 +22,13 @@ namespace lab3
             return nullptr;
         }
 
+        // Leaf has no child.
         bool is_leaf()
         {
             return (lchild == nullptr && rchild == nullptr);
         }
 
+        // Init.
         HuffmanNode()
         {
             parent = nullptr;
@@ -37,6 +40,7 @@ namespace lab3
     // Build a Huffman Tree based on a given corpus.
     HuffmanNode *build_huffman_tree(Freq freq_arr[], int char_cnt)
     {
+        // Forest (array) => Tree (point).
         HuffmanNode **huffman_forest;
         huffman_forest = (HuffmanNode **)malloc(100000 * sizeof(HuffmanNode *));
         HuffmanNode *root = nullptr;
@@ -52,9 +56,10 @@ namespace lab3
             huffman_forest[i] = tmp_tree;
         }
 
+        // Get min and sub-min.
         for (int i = 1; i < char_cnt; ++i)
         {
-            int minn = -1, minnSub;
+            int minn = -1, sub_min;
             for (int j = 0; j < char_cnt; ++j)
             {
                 if (huffman_forest[j] != nullptr && minn == -1)
@@ -64,35 +69,36 @@ namespace lab3
                 }
                 if (huffman_forest[j] != nullptr)
                 {
-                    minnSub = j;
+                    sub_min = j;
                     break;
                 }
             }
 
-            for (int j = minnSub; j < char_cnt; ++j)
+            for (int j = sub_min; j < char_cnt; ++j)
             {
                 if (huffman_forest[j] != nullptr)
                 {
+                    // "Else" is a must for min & sub-min must be in order.
                     if (huffman_forest[j]->weight < huffman_forest[minn]->weight)
                     {
-                        minnSub = minn;
+                        sub_min = minn;
                         minn = j;
                     }
-                    else if (huffman_forest[j]->weight < huffman_forest[minnSub]->weight)
+                    else if (huffman_forest[j]->weight < huffman_forest[sub_min]->weight)
                     {
-                        minnSub = j;
+                        sub_min = j;
                     }
                 }
             }
 
-            // 建新树
+            // Build new tree.
             root = (HuffmanNode *)malloc(sizeof(HuffmanNode));
-            root->weight = huffman_forest[minn]->weight + huffman_forest[minnSub]->weight;
+            root->weight = huffman_forest[minn]->weight + huffman_forest[sub_min]->weight;
             root->lchild = huffman_forest[minn];
-            root->rchild = huffman_forest[minnSub];
+            root->rchild = huffman_forest[sub_min];
 
             huffman_forest[minn] = root;
-            huffman_forest[minnSub] = nullptr;
+            huffman_forest[sub_min] = nullptr;
         }
 
         return root;
@@ -100,14 +106,19 @@ namespace lab3
 
     void huffman_coding(HuffmanNode *root, int max_coding_length, int arr[], Bitseq coding[])
     {
+        // Check NULL.
         if (root != nullptr)
         {
+            // Leaf stands for actual char.
             if (root->is_leaf())
             {
+                // Print encoding.
                 printf("频率为 %d , 编码为 0x%x 的字符的 Huffman 编码为: ", root->weight, root->ch);
                 for (int i = 0; i < max_coding_length; ++i)
                     printf("%d ", arr[i]);
                 printf("\n");
+
+                // Record encoding.
                 coding[root->ch].data = 0;
                 coding[root->ch].size = 0;
                 coding[root->ch].ch = root->ch;
@@ -120,6 +131,7 @@ namespace lab3
             }
             else
             {
+                // Recursively fetch leafs and record trace for encoding.
                 arr[max_coding_length] = 0;
                 huffman_coding(root->lchild, max_coding_length + 1, arr, coding);
                 arr[max_coding_length] = 1;
@@ -128,6 +140,7 @@ namespace lab3
         }
     }
 
+    // Judge if a char exists.
     int exists_char(lab3::UTF8_CHAR ch, Freq *freq_arr, int max_size)
     {
         for (int i = 0; i < max_size; ++i)
@@ -140,35 +153,25 @@ namespace lab3
         return -1;
     }
 
+    // Count char's frequency.
     void cnt_freq(FILE *corpus_file_pointer, Freq *freq_arr, int *char_cnt)
     {
         lab3::UTF8_CHAR _tmp_char;
         while ((_tmp_char = fgetwc(corpus_file_pointer)) != WEOF)
         {
             int char_index = exists_char(_tmp_char, freq_arr, *char_cnt);
+            // Appeared before.
             if (char_index != -1)
             {
                 ++freq_arr[char_index].frequency;
             }
             else
             {
+                // Not appeared before.
                 freq_arr[*char_cnt].content = _tmp_char;
                 freq_arr[*char_cnt].frequency = 1;
                 *char_cnt += 1;
             }
         }
-    }
-
-    void show_corpus(Freq *corpus_freq, int size)
-    {
-        printf("|----------|-----------|\n");
-        printf("|  CODING  | FREQUENCY |\n");
-        printf("|----------|-----------|\n");
-        for (int i = 0; i < size; ++i)
-        {
-            printf("|  \'0x%x\'%s  |     %d%s  |\n", (int)corpus_freq[i].content, ((int)corpus_freq[i].content < 10 ? "   " : ((int)corpus_freq[i].content < 100 ? "  " : " ")), corpus_freq[i].frequency, (corpus_freq[i].frequency < 10 ? "   " : (corpus_freq[i].frequency < 100 ? "  " : " ")));
-            printf("|----------|-----------|\n");
-        }
-        printf("\n");
     }
 }
